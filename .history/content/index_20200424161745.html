@@ -18,6 +18,7 @@
     <div id="signUp" class="modal">
         <div class="header">
             <h2>Welcome to Social Runners </h2>
+            <button onclick="document.getElementById('login').style.display='block'" style="width:auto;">Login</button>
         </div>
     
         <span onclick="document.getElementById('signUp').style.display='none'" class="close"
@@ -40,6 +41,7 @@
     <div id="loginPage" class="modal">
         <div class="header">
             <h2>Welcome to Social Runners </h2>
+            <button onclick="document.getElementById('signUp').style.display='block'" style="width:auto;">Login</button>
         </div>
     
         <span onclick="document.getElementById('loginPage').style.display='none'" class="close"
@@ -53,7 +55,11 @@
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required>
 
+                <div class="clearfix">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                        class="cancelbtn">Cancel</button>
                     <button type="submit" class="signupbtn">Login</button>
+                </div>
             </div>
     </div>
 

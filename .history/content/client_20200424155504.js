@@ -16,6 +16,7 @@
 			.then (txt => alert(txt))
 			document.getElementById("forename").value = "";
 			document.getElementById("password").value = "";
+
 		}
 	}
 })();

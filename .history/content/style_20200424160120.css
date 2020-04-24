@@ -119,7 +119,7 @@ hr {
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     padding: 10px;
-    background: #f1f1f1;
+    background:white;
     font-size: 13px;
   }
   table {
@@ -142,6 +142,7 @@ hr {
     padding: 5px;
     font-size: 20px;
     text-align: center;
+    height: 150px;
     background: rgb(255, 250, 184);
     color: rgb(100, 100, 100);
   }
@@ -183,7 +184,9 @@ hr {
   }
   
   .card {
-     background-color: white;
+    float: left;
+     background-color: rgb(220, 220, 220);
+     padding: 15px;
   }
   
   .row:after {

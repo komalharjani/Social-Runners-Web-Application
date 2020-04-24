@@ -50,6 +50,9 @@ button:hover {
 /* Add padding to container elements */
 .container {
   padding: 16px;
+  padding-left: 35%;
+  position: absolute;
+  display: inline-block;
 }
 
 /* The Modal (background) */
