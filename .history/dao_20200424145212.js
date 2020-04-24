@@ -9,6 +9,7 @@
 	* function to bulk insert given documents
 	* function to create specified views in a design
 */
+
 (function() {
 
 	var nano = require('nano');
@@ -31,6 +32,8 @@
 				if ( err.reason == 'no_db_file' ) {
 					return nano.db.create(db_name) // create the database
 					.then( body => console.log(`database ${db_name} created!`) )
+					// .then( body => console.log('Data added!') )
+					// .then( body => console.log('Views added!') )
 				}
 				else {
 					console.log(`error getting database ${db_name}!`);
@@ -44,7 +47,6 @@
 			return this._db.get(id);
 		}
 
-		// insert a document with a particular id to the database
 		insertUser(id, user) {
 			return this._db.insert(user, id);
 		}
@@ -54,6 +56,7 @@
 			return this._db.bulk({docs: users})
 		}
 
+		// set up views for querying
 	}
 
 	//make the dao accessible from outside the module

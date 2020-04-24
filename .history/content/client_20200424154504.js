@@ -1,12 +1,11 @@
 (function(){
 	window.onload = function() {
-		let btn = document.getElementById("addNewUserBtn");
+		let btn = document.getElementById("addFilmBtn");
 		btn.onclick = function(){
 			let id = Math.random();
 			let data = new Object();
 			data.name = document.getElementById("name").value;
 			data.password = document.getElementById("password").value;
-			
 			fetch(`/addUser/${id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },

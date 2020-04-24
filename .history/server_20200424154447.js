@@ -44,5 +44,5 @@ app.use(express.static('content'));
 var db = new dao.DAO(config.db_info.url, config.db_info.username, config.db_info.password);
 db.init(config.db_info.database)
 //only start listening once the database initialisation has finished
-.then( body => app.listen(3000, () => { console.log("listening on port 3000")} ))
+.then( body => app.listen(3000, () => { console.log("listening on port 11722")} ))
 .catch( err => console.log('Not listening: database could not be initialised', err) )

@@ -6,7 +6,6 @@
 			let data = new Object();
 			data.name = document.getElementById("name").value;
 			data.password = document.getElementById("password").value;
-			
 			fetch(`/addUser/${id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },

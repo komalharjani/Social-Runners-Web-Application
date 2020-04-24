@@ -3,7 +3,6 @@ var bodyParser = require('body-parser');
 var app = express(); 
 app.use(bodyParser.json()) 
 app.use(bodyParser.urlencoded({ extended: true })) //optional but useful for url encoded data
-
 var config = require('./config-db.js');
 var model = require('./model');
 var dao = require('./dao');
@@ -24,7 +23,7 @@ app.put('/addUser/:id', function(req,res,next) {
 	});
 });
 
-app.get('/getUsers/:id', function(req,res,next) {
+app.get('/getUser/:id', function(req,res,next) {
 	let id = req.params.id;
 	db.getUser(id)
 	.then(jsn => {
@@ -33,10 +32,9 @@ app.get('/getUsers/:id', function(req,res,next) {
 	})
 	.catch(err => {
 		console.log(err);
-		res.status(500).end(`Could not get User with id ${id}`);
+		res.status(500).end(`Could not get user with id ${id}`);
 	});
 });
-
 
 app.use(express.static('content'));
 

@@ -4,9 +4,8 @@
 		btn.onclick = function(){
 			let id = Math.random();
 			let data = new Object();
+			//data.name - inside object
 			data.name = document.getElementById("name").value;
-			data.password = document.getElementById("password").value;
-			
 			fetch(`/addUser/${id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
@@ -14,6 +13,7 @@
 			})
 			.then (res => res.text())
 			.then (txt => alert(txt))
+			document.getElementById("name").value = "";
 		}
 	}
 })();

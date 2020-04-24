@@ -1,10 +1,9 @@
 (function() {
 
     class User {
-        constructor(name, password) {
+        constructor(name) {
             // These fields have to be given when creating an object
             this.name = name;
-            this.password = password;
         }
 
         // Getters and setters
@@ -14,17 +13,10 @@
 			else throw new Error("Invalid name");
         }
 
-        get password() { return this._password; }
-        set password(newPassword) { 
-            if ( typeof(newPassword) === 'string' && newPassword != "" ) this._password = newPassword; 
-			else throw new Error("Invalid Password");
-        } 
-	
 		// convert to json 
         toJSON() {
             let result = {};
             result.name = this.name;
-            result.password = this.password;
             return result;
         }
 
@@ -38,11 +30,9 @@
 			if (!json.hasOwnProperty('name')) {
 				throw new Error("Missing name");
 			}
-            if (!json.hasOwnProperty('password')) {
-				throw new Error("Missing password");
-			}
 
-			return new User(json.name, json.password);	
+
+			return new User(json.name);	
         }
     }
 
