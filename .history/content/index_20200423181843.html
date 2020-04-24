@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link href="style.css" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Add a Film</title>
+</head>
+<body>
+	<!--Header-->
+	<div class="header">
+        <h2>Welcome to Social Runners </h2>
+	</div>
+	
+<h1>Add a Film</h1>
+<section id="addFilmSec">
+	<div><label>name</label><input type="text" id="name"/></div>
+	<div><label>email</label><input type="text" id="type"/></div>
+	<div><label>year</label><input type="number" id="year" min="1901" max="3000"/></div>
+</section>
+
+<button onclick="document.getElementById('signUp').style.display='block'" style="width:auto;">Sign Up</button>
+
+<div id="signUp" class="modal">
+	<div class="header">
+		<h2>Welcome to Social Runners </h2>
+	</div>
+
+	<span onclick="document.getElementById('signUp').style.display='none'" class="close"
+		title="Close Modal">&times;</span>
+		<div class="container">
+			<h1>Sign Up</h1>
+			<p>Please fill in this form to create an account.</p>
+			<hr>
+			
+			<label for="name"><b>Full Name</b></label>
+			<input type="text" placeholder="Enter Full Name" name="name" id="name" required>
+
+			<label for="email"><b>Email</b></label>
+			<input type="text" placeholder="Enter Email" name="email" id="email" required>
+
+			<label for="psw"><b>Password</b></label>
+			<input type="password" placeholder="Enter Password" name="psw" id="password" required>
+
+			<label for="psw-repeat"><b>Repeat Password</b></label>
+			<input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+			<p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+			<div class="clearfix">
+				<button type="button" onclick="document.getElementById('id01').style.display='none'"
+					class="cancelbtn">Cancel</button>
+				<button type="submit" class="signUpBtn">Sign Up</button>
+			</div>
+		</div>
+</div>
+
+<script src="./client.js"></script>
+</body>
+</html>
