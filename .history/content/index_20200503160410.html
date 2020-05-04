@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <!--Header-->
+	<div class="header">
+        <h2>Welcome to Social Runners </h2>
+
+    <button onclick="location.href = './register.html'" style="width:auto;">Sign Up</button>
+    <button onclick="document.getElementById('loginPage').style.display='block'" style="width:auto;">Login</button>
+    </div>
+    
+    <!--Header-->
+    <div class="centercolumn">
+        <div class="card" style="height:500px">
+            <h2>Plan A Social Run</h2>
+        </div>
+    </div>
+
+    <div class="centercolumn">
+        <div class="card" style="height:500px">
+            <h2>Current Runs</h2>
+        </div>
+    </div>
+    
+    <!--Login Modal -->
+    <div id="loginPage" class="modal">
+        <div class="header">
+            <h2>Welcome to Social Runners </h2>
+        </div>
+    
+            <div class="container">
+                <h1>Login</h1>
+                <hr>
+                <label for="userName"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="username" required>
+
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+
+                    <button type="submit" class="signupbtn">Login</button>
+            </div>
+    </div>
+
+        <!--After Login - Create New Race / Run -->
+
+</body>
+</html>
