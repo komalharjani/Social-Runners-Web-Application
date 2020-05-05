@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+        <div class="header">
+            <h2>Welcome to Social Runners </h2>
+        </div>
+    
+            <div class="container">
+                <h1>Login</h1>
+                <hr>
+                <label for="userName"><b>Email</b></label>
+                <input type="text" placeholder="Enter Username" id="emailLogin" required>
+
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" id="passwordLogin" required>
+
+                    <button id="loginInBtn">Login</button>
+                    <button onclick="location.href = './register.html'" style="width:auto;">Don't have an Account? Sign Up</button>
+
+            </div>
+
+</body>
+<script>
+    	let btnLogIn = document.getElementById("loginInBtn");
+		btnLogIn.onclick = function(){ //onclick function
+			let id = document.getElementById("emailLogin").value;
+			let auth = new Object();
+			auth.email = document.getElementById("emailLogin").value;
+			auth.password = document.getElementById("passwordLogin").value;
+			fetch(`/checkUser/${id}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(auth) 
+			})
+			.then (res => res.text())
+			.then (txt => alert(txt))
+			console.log(auth);
+		}
+</script>
+
+</html>
