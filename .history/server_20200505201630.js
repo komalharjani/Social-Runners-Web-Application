@@ -70,7 +70,6 @@ app.get('/getUsers/:id', function (request, response) {
 
 app.use(express.static('content'));
 
-
 // set up and intitialise the database 
 var db = new dao.DAO(config.db_info.url, config.db_info.username, config.db_info.password);
 db.init(config.db_info.database)

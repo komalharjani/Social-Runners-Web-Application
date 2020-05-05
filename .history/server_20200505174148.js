@@ -28,6 +28,7 @@ app.post('/addUser/:id', async (req, res) => {
 		});
 });
 
+let currUser;
 
 //check against get if password correct HERE
 app.post('/userLogin/:id', async (req, res) => {
@@ -38,6 +39,7 @@ app.post('/userLogin/:id', async (req, res) => {
 			let dbpass = user.password;
 			let inputpass = req.body.password;
 			if (dbpass === inputpass) {
+				currUser = req.body.email;
 				res.status(200).json(`Login Successful`);
 				// if (bcrypt.compare(req.body.password, user.password)) 
 			}
@@ -53,23 +55,23 @@ app.post('/userLogin/:id', async (req, res) => {
 });
 
 //Get User Info to Display on Dashboard based on ID -- only if logged in
-app.get('/getUsers/:id', function (request, response) {
-	let id = request.params.id;
-	db.getUser(id)
+app.get('/getUsers', function (req, res) {
+	let id = currUser;
+	console.log;
+	//let id = req.params.id;
+	db.getUser(currUser)
 		.then(jsn => {
 			let user = model.User.fromJSON(jsn); // this will do all the validation for us!
 			let info = { name: user.name, age: user.age, email: user.email };
-			response.status(200).json(info);
-			//response.render("id", info.email);
+			res.status(200).json(info);
 		})
 		.catch(err => {
 			console.log(err);
-			response.status(500).end(`Could not get User with id ${id}`);
+			res.status(500).end(`Could not get User with id ${id}`);
 		});
 });
 
 app.use(express.static('content'));
-
 
 // set up and intitialise the database 
 var db = new dao.DAO(config.db_info.url, config.db_info.username, config.db_info.password);

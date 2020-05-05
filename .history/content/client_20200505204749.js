@@ -40,7 +40,7 @@ function login() {
 function dashboard(){
     const getAllUsers = async function () {
 		let id = document.getElementById("emailLogin");
-        const getResponse = await fetch(`/getUsers/komaalharjani@gmail.com`);
+        const getResponse = await fetch(`/getUsers/{}`);
         getUsers = await getResponse.json();
         let name = getUsers.name;
         let age = getUsers.age;

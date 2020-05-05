@@ -9,6 +9,9 @@ var model = require('./model');
 var dao = require('./dao');
 app.use(express.json());
 
+
+const loggedInUser = [];
+
 //Add a User
 app.post('/addUser/:id', async (req, res) => {
 	let id = req.params.id;
@@ -39,6 +42,7 @@ app.post('/userLogin/:id', async (req, res) => {
 			let inputpass = req.body.password;
 			if (dbpass === inputpass) {
 				res.status(200).json(`Login Successful`);
+				loggedInUser.push({name: user.name, age: user.age, email: user.email});
 				// if (bcrypt.compare(req.body.password, user.password)) 
 			}
 			if (dbpass !== inputpass) {
@@ -52,24 +56,26 @@ app.post('/userLogin/:id', async (req, res) => {
 		});
 });
 
+let authenticate = function(req, res, next) {
+	
+}
+
 //Get User Info to Display on Dashboard based on ID -- only if logged in
-app.get('/getUsers/:id', function (request, response) {
-	let id = request.params.id;
+app.get('/getUsers/:id', function (req, res) {
+	let id = req.params.id;
 	db.getUser(id)
 		.then(jsn => {
 			let user = model.User.fromJSON(jsn); // this will do all the validation for us!
 			let info = { name: user.name, age: user.age, email: user.email };
-			response.status(200).json(info);
-			//response.render("id", info.email);
+			res.status(200).json(info);
 		})
 		.catch(err => {
 			console.log(err);
-			response.status(500).end(`Could not get User with id ${id}`);
+			res.status(500).end(`Could not get User with id ${id}`);
 		});
 });
 
 app.use(express.static('content'));
-
 
 // set up and intitialise the database 
 var db = new dao.DAO(config.db_info.url, config.db_info.username, config.db_info.password);

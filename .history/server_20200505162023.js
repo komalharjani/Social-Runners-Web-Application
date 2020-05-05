@@ -1,13 +1,36 @@
 var express = require('express');
 var app = express();
-var basicAuth = require('basic-auth');
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) //optional but useful for url encoded data
 var config = require('./config-db.js');
 var model = require('./model');
 var dao = require('./dao');
+const session = require('express-session');
+const Expression = require('couchdb-expression')(session);
+const timeOut = 1000 * 60 * 60 * 2;
+const bcrypt = require('bcrypt');
 app.use(express.json());
+
+//REDIRECT
+//CREATE SESSION
+//REPLACE DASHBOARD WITH SESH ID INFO
+//MAKE PAGES HIDDEN - or login required
+
+// app.use(session({
+// 	name: SESS_NAME,
+// 	resave: false,
+// 	saveUninitialized: false,
+// 	secret: SESS_SECRET,
+// 	cookie: {
+// 		maxAge: SESS_LIFETIME,
+// 		sameSite: true,
+// 		secure: IN_PROD
+// 	}
+// }))
+
+const loggedInUser = [];
 
 //Add a User
 app.post('/addUser/:id', async (req, res) => {
@@ -28,7 +51,6 @@ app.post('/addUser/:id', async (req, res) => {
 		});
 });
 
-
 //check against get if password correct HERE
 app.post('/userLogin/:id', async (req, res) => {
 	let id = req.params.id;
@@ -39,6 +61,7 @@ app.post('/userLogin/:id', async (req, res) => {
 			let inputpass = req.body.password;
 			if (dbpass === inputpass) {
 				res.status(200).json(`Login Successful`);
+				loggedInUser.push({name: user.name, age: user.age, email: user.email});
 				// if (bcrypt.compare(req.body.password, user.password)) 
 			}
 			if (dbpass !== inputpass) {
@@ -53,23 +76,21 @@ app.post('/userLogin/:id', async (req, res) => {
 });
 
 //Get User Info to Display on Dashboard based on ID -- only if logged in
-app.get('/getUsers/:id', function (request, response) {
-	let id = request.params.id;
+app.get('/getUsers/:id', function (req, res) {
+	let id = req.params.id;
 	db.getUser(id)
 		.then(jsn => {
 			let user = model.User.fromJSON(jsn); // this will do all the validation for us!
 			let info = { name: user.name, age: user.age, email: user.email };
-			response.status(200).json(info);
-			//response.render("id", info.email);
+			res.status(200).json(info);
 		})
 		.catch(err => {
 			console.log(err);
-			response.status(500).end(`Could not get User with id ${id}`);
+			res.status(500).end(`Could not get User with id ${id}`);
 		});
 });
 
 app.use(express.static('content'));
-
 
 // set up and intitialise the database 
 var db = new dao.DAO(config.db_info.url, config.db_info.username, config.db_info.password);

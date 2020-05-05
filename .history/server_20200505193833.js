@@ -59,8 +59,8 @@ app.get('/getUsers/:id', function (request, response) {
 		.then(jsn => {
 			let user = model.User.fromJSON(jsn); // this will do all the validation for us!
 			let info = { name: user.name, age: user.age, email: user.email };
-			response.status(200).json(info);
-			//response.render("id", info.email);
+			response.status(200).json(request.params.id);
+			response.render("id", info.email);
 		})
 		.catch(err => {
 			console.log(err);
@@ -69,7 +69,6 @@ app.get('/getUsers/:id', function (request, response) {
 });
 
 app.use(express.static('content'));
-
 
 // set up and intitialise the database 
 var db = new dao.DAO(config.db_info.url, config.db_info.username, config.db_info.password);

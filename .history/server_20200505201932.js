@@ -53,7 +53,7 @@ app.post('/userLogin/:id', async (req, res) => {
 });
 
 //Get User Info to Display on Dashboard based on ID -- only if logged in
-app.get('/getUsers/:id', function (request, response) {
+app.get('/getUsers/', function (request, response) {
 	let id = request.params.id;
 	db.getUser(id)
 		.then(jsn => {
@@ -69,7 +69,6 @@ app.get('/getUsers/:id', function (request, response) {
 });
 
 app.use(express.static('content'));
-
 
 // set up and intitialise the database 
 var db = new dao.DAO(config.db_info.url, config.db_info.username, config.db_info.password);

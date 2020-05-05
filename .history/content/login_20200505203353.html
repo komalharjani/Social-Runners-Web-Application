@@ -26,21 +26,6 @@
             </div>
 
 </body>
-<script>
-    	let btnLogIn = document.getElementById("loginInBtn");
-		btnLogIn.onclick = function(){ //onclick function
-			let id = document.getElementById("emailLogin").value;
-			let auth = new Object();
-			auth.email = document.getElementById("emailLogin").value;
-			auth.password = document.getElementById("passwordLogin").value;
-			fetch(`/userLogin/${id}`, {
-				method: 'PUT',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(auth) 
-			})
-			.then (res => res.text())
-			.then (txt => alert(txt))
-		}
-</script>
+<script src="client.js"></script>
 
 </html>
