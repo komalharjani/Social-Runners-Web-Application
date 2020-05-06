@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="style.css" rel="stylesheet">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body onload=dashboard()>
+    <!--Header-->
+    <div class="header">
+        <h2>Welcome to Social Runners </h2>
+        <button onclick="location.href = './index.html'" style="width:auto;">Logout</button>
+    </div>
+
+    <!--Profile and Calendar-->
+    <div class="leftcolumn">
+        <div class="card" style="height:500px">
+            <div class="profile">
+                <img src="img.png" alt="John" style="width:100%">
+                <h3 id="nameDisplay">Name</h3>
+                <p id="ageDisplay">Age: </p>
+                <p>Run Score:</p>
+                <button style="width:auto;">Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Social Runs-->
+    <div class="centercolumn" id="startRun">
+        <div class="card">
+            <h2>Current Runs</h2>
+
+            <button onclick="document.getElementById('newRun').style.display='block'" style="width:auto;">Plan New
+                Run</button>
+
+            <!--<div id="newRun" class="modal">
+        <div class="header">
+            <h2>Welcome to Social Runners </h2>
+        </div>
+
+        <span onclick="document.getElementById('newRun').style.display='none'" class="close"
+            title="Close Modal">&times;</span>-->
+
+            <!--Alert Message here before Close - will lose all data -->
+            <div class="container">
+                <h1>Plan A Social Run</h1>
+                <p>Please fill in this form to create a run.</p>
+                <form id="distance_form">
+                    <div>
+                        <label>Origin:</label>
+                        <input id="from_places" placeholder="Enter a Location" />
+                        <input id="origin" type="hidden" name="origin" required />
+                    </div>
+
+                    <div>
+                        <label>Destination:</label>
+                        <input id="to_places" placeholder="Enter a Location" />
+                        <input id="destination" type="hidden" name="destintion" required />
+                    </div>
+                    <div><label>Pace in km/hour</label><input type="number" id="pace" /></div>
+                    <div><label>Start Time</label><input type="time" id="time" /></div>
+                    <div><label>Date</label><input type="date" id="date" /></div>
+
+                    <input type="submit" value="calculate" class="btn btn-primary" />
+                </form>
+                <script>
+
+                    $(function () {
+                        // add input listeners
+                        google.maps.event.addDomListener(window, 'load', function () {
+                            var from_places = new google.maps.places.Autocomplete(document.getElementById('from_places'));
+                            var to_places = new google.maps.places.Autocomplete(document.getElementById('to_places'));
+
+                            google.maps.event.addListener(from_places, 'place_changed', function () {
+                                var from_place = from_places.getPlace();
+                                var from_address = from_place.formatted_address;
+                                $('#origin').val(from_address);
+                            });
+
+                            google.maps.event.addListener(to_places, 'place_changed', function () {
+                                var to_place = to_places.getPlace();
+                                var to_address = to_place.formatted_address;
+                                $('#destination').val(to_address);
+                            });
+                        });
+
+                        // calculate distance
+                        function calculateDistance() {
+                            var origin = $('#origin').val();
+                            var destination = $('#destination').val();
+                            //Create a New Service Object
+                            var service = new google.maps.DistanceMatrixService();
+                            //Get the Data Below
+                            service.getDistanceMatrix(
+                                {
+                                    origins: [origin],
+                                    destinations: [destination],
+                                    travelMode: google.maps.TravelMode.WALKING,
+                                    unitSystem: google.maps.UnitSystem.IMPERIAL, // miles and feet.
+                                }, callback);
+                        }
+                        // get distance results
+                        function callback(response, status) {
+                            if (status != google.maps.DistanceMatrixStatus.OK) {
+                                $('#result').html(err);
+                            } else {
+                                var origin = response.originAddresses[0];
+                                var destination = response.destinationAddresses[0];
+                                if (response.rows[0].elements[0].status === "ZERO_RESULTS") {
+                                    $('#result').html("There is no route between " + origin + " and " + destination);
+                                } else {
+                                    var distance = response.rows[0].elements[0].distance;
+                                    //define own duration and pace here and consolelog display after submit
+                                    var duration = response.rows[0].elements[0].duration;
+                                    console.log(response.rows[0].elements[0].distance.value);
+                                    var distance_in_mile = distance.value / 1609.34; // the mile
+                                    var duration_text = duration.text;
+                                    var duration_value = duration.value;
+                                    $('#in_mile').text(distance_in_mile.toFixed(2));
+                                    $('#duration_text').text(duration_text);
+                                    $('#duration_value').text(duration_value);
+                                    $('#from').text(origin);
+                                    $('#to').text(destination);
+                                }
+                            }
+                        }
+                        // print results on submit the form
+                        $('#distance_form').submit(function (e) {
+                            e.preventDefault();
+                            calculateDistance();
+                        });
+
+
+                    });
+
+                </script>
+                <button id="planARun">Build Run!</button>
+
+            </div>
+        </div>
+
+        <!--New Modal-->
+
+
+
+    </div>
+    </div>
+
+    <!--Stats -->
+    <div class="rightcolumn">
+        <div class="card" style="height:500px">
+            <h2>Calendar</h2>
+            <h1>My Google Map</h1>
+            <div id="map"></div>
+        </div>
+    </div>
+
+</body>
+<script src="client.js"></script>
+<!-- <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuV3UZ0HOvo8-fdzQckz-H8uZyUhdpPik&callback=initMap"></script> -->
+<script defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuV3UZ0HOvo8-fdzQckz-H8uZyUhdpPik&libraries=places"></script>
+
+</html>

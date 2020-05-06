@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="style.css" rel="stylesheet">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body onload=dashboard()>
+    <!--Header-->
+    <div class="header">
+        <h2>Welcome to Social Runners </h2>
+        <button onclick="location.href = './index.html'" style="width:auto;">Logout</button>
+    </div>
+
+    <!--Profile and Calendar-->
+    <div class="leftcolumn">
+        <div class="card" style="height:500px">
+            <div class="profile">
+                <img src="img.png" alt="John" style="width:100%">
+                <h3 id="nameDisplay">Name</h3>
+                <p id="ageDisplay">Age: </p>
+                <p>Run Score:</p>
+                <button style="width:auto;">Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Social Runs-->
+    <div class="centercolumn" id="startRun">
+        <div class="card">
+            <h2>Current Runs</h2>
+
+            <button onclick="document.getElementById('newRun').style.display='block'" style="width:auto;">Plan New
+                Run</button>
+
+            <!--<div id="newRun" class="modal">
+        <div class="header">
+            <h2>Welcome to Social Runners </h2>
+        </div>
+
+        <span onclick="document.getElementById('newRun').style.display='none'" class="close"
+            title="Close Modal">&times;</span>-->
+
+            <!--Alert Message here before Close - will lose all data -->
+            <div class="container">
+                <h1>Plan A Social Run</h1>
+                <p>Please fill in this form to create a run.</p>
+                <form id="distance_form">
+                    <div>
+                        <label>Origin:</label>
+                        <input id="from_places" placeholder="Enter a Location" />
+                        <input id="origin" type="hidden" name="origin" required />
+                    </div>
+
+                    <div>
+                        <label>Destination:</label>
+                        <input id="to_places" placeholder="Enter a Location" />
+                        <input id="destination" type="hidden" name="destintion" required />
+                    </div>
+
+                    <div>
+                        <label>Approx Pace in Miles/Hour:</label>
+                        <input id="paceMiles" placeholder="Enter a Pace" />
+                    </div>
+                    <input type="submit" value="Calculate Run" class="btn btn-primary" />
+                </form>
+
+                <form id="submitToDB">
+                <div id="results">
+                    <ul class="list-group">
+                        <p>Are these Details OK?</p>
+                        <li class="results">
+                            <b>Origin:</b>
+                            <span id="from" ></span>
+                        </li>
+                        <li class="results">
+                            <b>Destination:</b>
+                            <span id="to" ></span>
+                        </li>
+                        <li class="results">
+                            <b>Distance In Miles:</b>
+                            <span id="in_mile" ></span>
+                        </li>
+                        <li class="results">
+                            <b>Time:</b>
+                            <span id="duration_text" ></span>
+                        </li>
+                    </ul>
+                    <div><label>Date</label><input type="date" id="date" /></div>
+                    <div><label>Start Time</label><input type="time" id="time"/></div>
+                    <div><label>Description</label><input type="text" id="description"/></div>
+                    <!--Add New Dynamically with Button-->
+                    <div><label>Meeting Points</label><input type="text" id="meetingPoints"/></div>
+                    <div><label>Max Participants</label><input type="number" id="maxPeople"/></div>
+
+                </div>
+                                <button id="planARun">Build Run!</button>
+
+            </form>
+
+            </div>
+        </div>
+
+        <!--New Modal-->
+
+
+
+    </div>
+    </div>
+
+    <!--Stats -->
+    <div class="rightcolumn">
+        <div class="card" style="height:500px">
+            <h2>Calendar</h2>
+            <h1>My Google Map</h1>
+            <div id="map"></div>
+        </div>
+    </div>
+
+</body>
+<script src="client.js"></script>
+<!-- <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuV3UZ0HOvo8-fdzQckz-H8uZyUhdpPik&callback=initMap"></script> -->
+<script defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuV3UZ0HOvo8-fdzQckz-H8uZyUhdpPik&libraries=places"></script>
+
+</html>

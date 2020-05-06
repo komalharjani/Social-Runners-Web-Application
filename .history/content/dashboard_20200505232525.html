@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body onload=dashboard()>
+    <!--Header-->
+	<div class="header">
+        <h2>Welcome to Social Runners </h2>
+    <button onclick="location.href = './index.html'" style="width:auto;">Logout</button>
+    </div>
+    
+    <!--Profile and Calendar-->
+    <div class="leftcolumn">
+        <div class="card" style="height:500px">
+            <div class="profile">
+                <img src="img.png" alt="John" style="width:100%">
+                <h3 id="nameDisplay">Name</h3>
+                <p id="ageDisplay">Age: </p>
+                <p>Run Score:</p>
+                <button style="width:auto;">Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Social Runs-->
+    <div class="centercolumn" id="startRun">
+        <div class="card" style="height:500px">
+            <h2>Current Runs</h2>
+
+            <button onclick="document.getElementById('newRun').style.display='block'" style="width:auto;">Plan New Run</button>
+
+    <div id="newRun" class="modal">
+        <div class="header">
+            <h2>Welcome to Social Runners </h2>
+        </div>
+
+        <span onclick="document.getElementById('newRun').style.display='none'" class="close"
+            title="Close Modal">&times;</span>
+            <!--Alert Message here before Close - will lose all data -->
+            <div class="container">
+                <h1>Plan A Social Run</h1>
+                <p>Please fill in this form to create a run.</p>
+                <div><label>Start Location</label><input type="text" id="start" required/></div>
+                <div><label>End Location</label><input type="text" id="end" required/></div>
+                <div><label>Pace in km/hour</label><input type="number" min=0 max=100 id="pace" required/></div>
+                <div><label>Date</label><input type="data" id="date" required/></div>
+`
+                <button id="planARun">Build Run!</button>
+
+            </div>
+    </div>
+
+                <!--New Modal-->
+
+
+
+        </div>
+    </div>
+
+    <!--Stats -->
+    <div class="rightcolumn">
+        <div class="card" style="height:500px">
+            <h2>Calendar</h2>
+        </div>
+    </div>
+
+
+</body>
+<script src="client.js"></script>
+</html>
