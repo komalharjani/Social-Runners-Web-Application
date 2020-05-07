@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="style.css" rel="stylesheet">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <!--Header-->
+    <div class="header">
+        <h2>Welcome to Social Runners </h2>
+        <button onclick="logout() = './index.html'" style="width:auto;">Logout</button>
+    </div>
+
+    <!--Profile and Calendar-->
+    <div class="leftcolumn">
+        <div class="card" style="height:500px">
+            <div class="profile">
+                <img src="img.png" id="profile" alt="John" style="width:100%">
+                <h3 id="hi"></h3>
+                <p id="ageDisplay">Age: </p>
+                <p>Run Score:</p>
+                <button style="width:auto;">Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Social Runs-->
+    <div class="centercolumn" id="startRun">
+        <div class="card">
+            <h2>Current Runs</h2>
+                  <div id="runPosts" class="runPostsStyle"></div>
+
+            <button onclick="document.getElementById('newRun').style.display='block'" style="width:auto;">Plan New
+                Run</button>
+
+            <div id="newRun" class="modal">
+                <div class="header">
+                    <h2>Welcome to Social Runners </h2>
+                </div>
+
+                <span id="closeModal" onclick="document.getElementById('newRun').style.display='none'"
+                    class="close">&times;</span>
+
+                <!-- Alert Message here before Close - will lose all data -->
+                <h1>Plan A Social Run</h1>
+                <div class="container">
+                    <p id="result"></p>
+                    <b>
+                        <p> 1. Input your origin, destination and pace</p>
+                    </b>
+                    <form id="distance_form">
+                        <div>
+                            <label>Origin:</label>
+                            <input id="from_places" placeholder="Enter a Location" required />
+                            <input id="origin" type="hidden" name="origin" required />
+                        </div>
+
+                        <div>
+                            <label>Destination:</label>
+                            <input id="to_places" placeholder="Enter a Location" required />
+                            <input id="destination" type="hidden" name="destintion" required />
+                        </div>
+
+                        <div>
+                            <label>Approx Pace in Miles/Hour:</label>
+                            <input id="paceMiles" placeholder="Enter a Pace" required />
+                        </div>
+                        <input type="submit" value="Calculate Run" class="runBtn" />
+                    </form>
+                </div>
+                <div class="container" id="second" style="display:none;">
+                    <div id="results">
+                        <b>
+                            <p>2. If you're okay with the pace and duration, add more details and post your run!</p>
+                        </b>
+                        <div>
+                            <label>Origin</label>
+                            <p class="labelText" id="from"></p>
+                        </div>
+                        <div>
+                            <label>Destination</label>
+                            <p class="labelText" id="to"></p>
+                        </div>
+                        <div>
+                            <label>Distance in Miles:</label>
+                            <p class="labelText" id="in_mile"></p>
+                        </div>
+                        <div>
+                            <label>Pace:</label>
+                            <p class="labelText" id="paceSubmit"></p>
+                        </div>
+                        <div>
+                            <label>Time:</label>
+                            <p class="labelText" id="duration_text"></p>
+                        </div>
+                    </div>
+                    <div><label>Date</label><input type="date" id="date" /></div>
+                    <div><label>Start Time</label><input type="time" id="time" /></div>
+                    <div><label>Description</label><input type="text" id="description" /></div>
+                    <!--Add New Dynamically with Button-->
+                    <div><label>Meeting Point 1</label><input type="text" id="meetingPointOne" /></div>
+                    <div><label>Meeting Point 2</label><input type="text" id="meetingPointTwo" /></div>
+                    <div><label>Max Participants</label><input type="number" min=0 id="maxPeople" /></div>
+                    <!-- <div id="map"></div> -->
+                    <input type="submit" onclick=newRun() id="planRun" value="Post Run!" class="runBtn" />
+                </div>
+                <script>
+
+                    $(function () {
+                        // add input listeners
+                        google.maps.event.addDomListener(window, 'load', function () {
+                            var from_places = new google.maps.places.Autocomplete(document.getElementById('from_places'));
+                            var to_places = new google.maps.places.Autocomplete(document.getElementById('to_places'));
+
+                            google.maps.event.addListener(from_places, 'place_changed', function () {
+                                var from_place = from_places.getPlace();
+                                var from_address = from_place.formatted_address;
+                                $('#origin').val(from_address);
+                            });
+
+                            google.maps.event.addListener(to_places, 'place_changed', function () {
+                                var to_place = to_places.getPlace();
+                                var to_address = to_place.formatted_address;
+                                $('#destination').val(to_address);
+                            });
+                        });
+
+                        // calculate distance
+                        function calculateDistance() {
+                            var origin = $('#origin').val();
+                            var destination = $('#destination').val();
+                            //Create a New Service Object
+                            var service = new google.maps.DistanceMatrixService();
+                            //Get the Data Below
+                            service.getDistanceMatrix(
+                                {
+                                    origins: [origin],
+                                    destinations: [destination],
+                                    travelMode: google.maps.TravelMode.WALKING,
+                                    unitSystem: google.maps.UnitSystem.IMPERIAL, // miles and feet.
+                                }, callback);
+                        }
+                        // get distance results
+                        function callback(response, status) {
+                            if (status != google.maps.DistanceMatrixStatus.OK) {
+                                $('#result').html(err);
+                            } else {
+                                var origin = response.originAddresses[0];
+                                var destination = response.destinationAddresses[0];
+                                if (response.rows[0].elements[0].status === "ZERO_RESULTS") {
+                                    $('#result').html("Hmmm...Doesn't seem like you can run from " + origin + " to " + destination);
+                                } else {
+                                    var distance = response.rows[0].elements[0].distance;
+                                    //define own duration and pace here and consolelog
+                                    let pace = document.getElementById("paceMiles").value;
+                                    //let distancePace = pace * distance.value;
+                                    var duration = response.rows[0].elements[0].duration;
+                                    var distance_in_mile = distance.value / 1609.34; // the mile
+                                    var calc = (distance_in_mile.toFixed(2) / pace) * 60;
+                                    calcNew = timeConvert(calc);
+                                    console.log(calcNew);
+                                    $('#in_mile').text(distance_in_mile.toFixed(2));
+                                    $('#duration_text').text(calcNew);
+                                    $('#from').text(origin);
+                                    $('#to').text(destination);
+                                    $('#paceSubmit').text(pace);
+                                    myFunction();
+                                }
+                            }
+                        }
+                        // print results on submit the form
+                        $('#distance_form').submit(function (e) {
+                            e.preventDefault();
+                            calculateDistance();
+                        });
+                    });
+
+                    function timeConvert(n) {
+                        var num = n;
+                        var hours = (num / 60);
+                        var rhours = Math.floor(hours);
+                        var minutes = (hours - rhours) * 60;
+                        var rminutes = Math.round(minutes);
+                        return rhours + " hour(s) and " + rminutes + " minute(s).";
+                    }
+
+                    function myFunction() {
+                        var x = document.getElementById("second");
+                        if (x.style.display === "none") {
+                            x.style.display = "block";
+                        } else {
+                            x.style.display = "none";
+                        }
+                    }
+
+                </script>
+            </div>
+        </div>
+
+        <!--End Modal-->
+
+    </div>
+    </div>
+
+</body>
+<script src="client.js"></script>
+<!-- <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuV3UZ0HOvo8-fdzQckz-H8uZyUhdpPik&callback=initMap"></script> -->
+<script defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuV3UZ0HOvo8-fdzQckz-H8uZyUhdpPik&libraries=places"></script>
+
+</html>
