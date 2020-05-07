@@ -39,9 +39,36 @@
 			});
 		}
 
+		// get a film with a particular id
+		getUser(id) {
+			//console.log(this._db.get(id));
+			return this._db.get(id);
+		}
+
+		getUsers() {
+			return this._db.get();
+		}
+
+		// insert a document with a particular id to the database
+		insertUser(id, user) {
+			return this._db.insert(user, id);
+		}
+
+		// bulk insert documents to the database
+		insertUsers(users){
+			return this._db.bulk({docs: users})
+		}
+
+		createViews() {
+		}
+
 		insertRun(id,run) {
 			console.log(this._db.insert(id));
 			return this._db.insert(run, id);
+		}
+
+		insertFilm(id, film) {
+			return this._db.insert(film, id);
 		}
 
 		getAllRuns(id) {

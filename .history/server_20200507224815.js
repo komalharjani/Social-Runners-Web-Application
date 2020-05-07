@@ -62,34 +62,6 @@ app.post('/addRun/:id', async (req, res) => {
  * POST
  * Route to Login
  */
-// app.post('/userLogin/:id', function (req, res) {
-// 	let id = req.params.id;
-// 	console.log(id);
-// 	db.getUser(id)
-// 		.then(jsn => {
-// 			console.log("hello");
-// 			let user = model.User.fromJSON(jsn); // this will do all the validation for us!
-// 			let dbpass = user.password;
-// 			let inputpass = req.body.password;
-// 			if (dbpass === inputpass) {
-// 				console.log("success");
-// 				let info = { name: user.name, age: user.age, email: user.email };
-// 				res.status(200).json(info);
-// 				//res.status(200).end(`Login Successful`);
-// 				// if (bcrypt.compare(req.body.password, user.password)) 
-// 			}
-// 			if (dbpass !== inputpass) {
-// 				res.status(450);
-// 			}
-// 		})
-// 		//If Email Doesn't Exist
-// 		.catch(err => {
-// 			console.log(err);
-// 			res.status(500).end(`This email does not exist.`);
-// 		});
-// });
-
-//check against get if password correct HERE
 app.post('/userLogin/:id', async (req, res) => {
 	let id = req.params.id;
 	db.getUser(id)
@@ -98,12 +70,11 @@ app.post('/userLogin/:id', async (req, res) => {
 			let dbpass = user.password;
 			let inputpass = req.body.password;
 			if (dbpass === inputpass) {
-				let info = { name: user.name, age: user.age, email: user.email };
-				res.status(200).json(info);
+				res.status(200).end(`Login Successful`);
 				// if (bcrypt.compare(req.body.password, user.password)) 
 			}
 			if (dbpass !== inputpass) {
-				res.status(500);
+				res.status(500).end(`Incorrect details. Please try again`);
 			}
 		})
 		//If Email Doesn't Exist
@@ -112,6 +83,7 @@ app.post('/userLogin/:id', async (req, res) => {
 			res.status(500).end(`This email does not exist.`);
 		});
 });
+
 
 
 /**

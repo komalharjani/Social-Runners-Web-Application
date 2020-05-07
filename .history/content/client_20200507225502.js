@@ -7,7 +7,6 @@ function newRun() {
 	let idRandom = (Math.random() * (10000 - 1) + 1);
 	let id = Math.floor(idRandom);
 	//let email = clientId;
-	//CHANGE TO DYNAMIC LOGGED IN USER 
 	let email = "komaalharjani@gmail.com";
 	let runData = new Object();
 	runData.origin = document.getElementById("from").innerHTML;

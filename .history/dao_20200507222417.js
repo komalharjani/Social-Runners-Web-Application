@@ -13,7 +13,7 @@
 
 	var nano = require('nano');
 
-	class DAORun {
+	class DAO {
 		constructor(url, user, pword) {
 			console.log(`URL: http://${user}:******@${url}`);
 			nano = nano(`http://${user}:${pword}@${url}`);
@@ -39,19 +39,40 @@
 			});
 		}
 
+		// get a film with a particular id
+		getUser(id) {
+			return this._db.get(id);
+		}
+
+		getUsers() {
+			return this._db.get();
+		}
+
+		// insert a document with a particular id to the database
+		insertUser(id, user) {
+			return this._db.insert(user, id);
+		}
+
+		// bulk insert documents to the database
+		insertUsers(users){
+			return this._db.bulk({docs: users})
+		}
+
+		createViews() {
+		}
+
 		insertRun(id,run) {
 			console.log(this._db.insert(id));
 			return this._db.insert(run, id);
 		}
 
-		getAllRuns(id) {
-			//return this._db.get('origin', origin).then ( body => body.rows );
-			return this._db.get(id).then(body => body.rows);
+		insertFilm(id, film) {
+			return this._db.insert(film, id);
 		}
 
 	}
 
 	//make the dao accessible from outside the module
-	var moduleExports = { DAORun: DAORun };
+	var moduleExports = { DAO: DAO };
 	module.exports = moduleExports;
 })();

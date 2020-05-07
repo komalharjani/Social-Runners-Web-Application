@@ -62,34 +62,6 @@ app.post('/addRun/:id', async (req, res) => {
  * POST
  * Route to Login
  */
-// app.post('/userLogin/:id', function (req, res) {
-// 	let id = req.params.id;
-// 	console.log(id);
-// 	db.getUser(id)
-// 		.then(jsn => {
-// 			console.log("hello");
-// 			let user = model.User.fromJSON(jsn); // this will do all the validation for us!
-// 			let dbpass = user.password;
-// 			let inputpass = req.body.password;
-// 			if (dbpass === inputpass) {
-// 				console.log("success");
-// 				let info = { name: user.name, age: user.age, email: user.email };
-// 				res.status(200).json(info);
-// 				//res.status(200).end(`Login Successful`);
-// 				// if (bcrypt.compare(req.body.password, user.password)) 
-// 			}
-// 			if (dbpass !== inputpass) {
-// 				res.status(450);
-// 			}
-// 		})
-// 		//If Email Doesn't Exist
-// 		.catch(err => {
-// 			console.log(err);
-// 			res.status(500).end(`This email does not exist.`);
-// 		});
-// });
-
-//check against get if password correct HERE
 app.post('/userLogin/:id', async (req, res) => {
 	let id = req.params.id;
 	db.getUser(id)
@@ -98,12 +70,15 @@ app.post('/userLogin/:id', async (req, res) => {
 			let dbpass = user.password;
 			let inputpass = req.body.password;
 			if (dbpass === inputpass) {
+				console.log("success");
 				let info = { name: user.name, age: user.age, email: user.email };
 				res.status(200).json(info);
+				//res.status(200).end(`Login Successful`);
 				// if (bcrypt.compare(req.body.password, user.password)) 
 			}
 			if (dbpass !== inputpass) {
-				res.status(500);
+				res.status(500).write(JSON.stringify({email: user.email, loggedIn: true}))
+				//res.status(500).end(`Incorrect details. Please try again`);
 			}
 		})
 		//If Email Doesn't Exist
@@ -112,7 +87,6 @@ app.post('/userLogin/:id', async (req, res) => {
 			res.status(500).end(`This email does not exist.`);
 		});
 });
-
 
 /**
  * GET from ID
@@ -132,8 +106,37 @@ app.get('/getUsers/:id', function (request, response) {
 		});
 });
 
+
+app.get('/getUsers/:id', function (request, response) {
+	let id = request.params.id;
+	dbRun.getAllRuns(id)
+		.then(jsn => {
+			response.status(200).json(jsn);
+		})
+		.catch(err => {
+			console.log(err);
+			response.status(500).end(`Could not get User with id ${id}`);
+		});
+});
+
 //get all runs and put into array
 //display and poll
+
+/**
+ * Route to Fetch Runs to Display on Page
+ */
+// app.get('/getRuns/:type', function(req,res,next) {
+// 	let type = req.params.type;
+// 	dbRun.getAllRuns(type)
+// 	.then(runs => {	
+// 		console.log(runs);
+// 		res.status(200).json(runs);
+// 	})
+// 	.catch(err => {
+// 		console.log(err);
+// 		res.status(500).end(`Could not get all runs`);
+// 	});
+// });
 
 
 

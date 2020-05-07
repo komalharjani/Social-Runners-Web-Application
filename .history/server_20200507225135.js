@@ -98,12 +98,11 @@ app.post('/userLogin/:id', async (req, res) => {
 			let dbpass = user.password;
 			let inputpass = req.body.password;
 			if (dbpass === inputpass) {
-				let info = { name: user.name, age: user.age, email: user.email };
-				res.status(200).json(info);
+				res.status(200).end(`Login Successful`);
 				// if (bcrypt.compare(req.body.password, user.password)) 
 			}
 			if (dbpass !== inputpass) {
-				res.status(500);
+				res.status(500).end(`Incorrect details. Please try again`);
 			}
 		})
 		//If Email Doesn't Exist

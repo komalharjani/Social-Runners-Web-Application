@@ -7,7 +7,6 @@ function newRun() {
 	let idRandom = (Math.random() * (10000 - 1) + 1);
 	let id = Math.floor(idRandom);
 	//let email = clientId;
-	//CHANGE TO DYNAMIC LOGGED IN USER 
 	let email = "komaalharjani@gmail.com";
 	let runData = new Object();
 	runData.origin = document.getElementById("from").innerHTML;
@@ -57,6 +56,31 @@ function signUp() {
 			.then(txt => alert(txt))
 	}
 }
+
+// function login() {
+// 	let btnLogIn = document.getElementById("loginInBtn");
+// 	btnLogIn.onclick = function () { //onclick function
+// 		let id = document.getElementById("emailLogin").value;
+// 		let auth = new Object();
+// 		auth.email = document.getElementById("emailLogin").value;
+// 		auth.password = document.getElementById("passwordLogin").value;
+// 		fetch(`/userLogin/${id}`, {
+// 			method: 'POST',
+// 			headers: { 'Content-Type': 'application/json' },
+// 			body: JSON.stringify(auth)
+// 		})
+// 		.then(function(response) {
+// 			if(response.status == 200) {
+// 				window.location.replace("./dashboard.html");
+// 				clientId = id;
+// 				dashboard(id);
+// 			}
+// 			else {
+// 				alert("Failed to Login.");
+// 			}
+// 		})
+// 	}
+// }
 
 function login() {
 	let btnLogIn = document.getElementById("loginInBtn");
