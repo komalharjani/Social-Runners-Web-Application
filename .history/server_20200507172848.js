@@ -1,0 +1,123 @@
+var express = require('express');
+var app = express();
+var basicAuth = require('basic-auth');
+var bodyParser = require('body-parser');
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) //optional but useful for url encoded data
+//First Config for User Storage
+var config = require('./config-db.js');
+var model = require('./model');
+var modelRun = require('./model-Run');
+var dao = require('./dao');
+//Second Config for Run Storage
+var configRun = require('./config-dbRun.js');
+var daoRun = require('./daoRun');
+app.use(express.json());
+const bcrypt = require('bcrypt');
+
+//Add a User
+app.post('/addUser/:id', async (req, res) => {
+	let id = req.params.id;
+	let body = req.body;
+	//const salt = await bcrypt.genSalt();
+	//const hashedPassword = await bcrypt.hash(req.body.password, salt)
+	//const user = { name: req.body.name, password: password, email: req.body.email, age: req.body.age, salt: salt }
+	console.log(body);
+	const user = model.User.fromJSON(body);
+	console.log(user);
+	db.insertUser(id, user)
+		.then(user_id => {
+			console.log(`Adding ${id}`);
+			res.status(200).end(`Sign Up successful: '${body.name}'`);
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500).end(`This email:'${body.email}' has already been used to sign up.`);
+		});
+});
+
+//Add a Run
+app.post('/addRun/:id', async (req, res) => {
+	let id = req.params.id;
+	let body = req.body;
+	console.log(body);
+	const run = modelRun.Run.fromJSON(body);
+	console.log(id,run);
+	db.insertRun(id, run.toJSON)
+		.then(run_id => {
+			console.log(`Adding Run: ${id}`);
+			res.status(200).end(`Run Uploaded`);
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500).end(`Not Uploaded`);
+		});
+});
+
+app.put('/addFilm/:id', function(req,res,next) {
+	let id = req.params.id;
+	let body = req.body;
+	let run = modelRun.Run.fromJSON(body); // this will do all the validation for us!
+	dbRun.insertFilm(id, run.toJSON())
+	.then( film_id => {	
+		res.status(200).end(`Added film '${body.name}' with id ${id}`);
+	})
+	.catch(err => {
+		console.log(err);
+		res.status(500).end(`Could not add film '${body.name}' with id ${id}`);
+	});
+});
+
+//check against get if password correct HERE
+app.post('/userLogin/:id', async (req, res) => {
+	let id = req.params.id;
+	db.getUser(id)
+		.then(jsn => {
+			let user = modelUser.User.fromJSON(jsn); // this will do all the validation for us!
+			let dbpass = user.password;
+			let inputpass = req.body.password;
+			if (dbpass === inputpass) {
+				console.log("success");
+				let info = { name: user.name, age: user.age, email: user.email };
+				res.status(200).json(info);
+				//res.status(200).end(`Login Successful`);
+				// if (bcrypt.compare(req.body.password, user.password)) 
+			}
+			if (dbpass !== inputpass) {
+				res.status(500).write(JSON.stringify({email: user.email, loggedIn: true}))
+				//res.status(500).end(`Incorrect details. Please try again`);
+			}
+		})
+		//If Email Doesn't Exist
+		.catch(err => {
+			console.log(err);
+			res.status(500).end(`This email does not exist.`);
+		});
+});
+
+//Get User Info to Display on Dashboard based on ID -- only if logged in
+app.get('/getUsers/:id', function (request, response) {
+	let id = request.params.id;
+	db.getUser(id)
+		.then(jsn => {
+			let user = modelUser.User.fromJSON(jsn); // this will do all the validation for us!
+			let info = { name: user.name, age: user.age, email: user.email };
+			response.status(200).json(info);
+			//response.render("id", info.email);
+		})
+		.catch(err => {
+			console.log(err);
+			response.status(500).end(`Could not get User with id ${id}`);
+		});
+});
+
+app.use(express.static('content'));
+
+// set up and intitialise the database 
+var db = new dao.DAO(config.db_info.url, config.db_info.username, config.db_info.password);
+var dbRun = new daoRun.DAORun(configRun.db_info.url, configRun.db_info.username, configRun.db_info.password);
+db.init(config.db_info.database)
+db.init(configRun.db_info.database)
+	//only start listening once the database initialisation has finished
+	.then(body => app.listen(3000, () => { console.log("listening on port 3000") }))
+	.catch(err => console.log('Not listening: database could not be initialised', err))
