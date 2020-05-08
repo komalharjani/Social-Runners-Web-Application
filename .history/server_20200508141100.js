@@ -33,7 +33,6 @@ app.post('/addUser/:id', async (req, res) => {
 		.then(user_id => {
 			console.log(`Adding ${id}`);
 			res.status(200).end(`Sign Up successful: '${body.name}'`);
-
 		})
 		.catch(err => {
 			console.log(err);
@@ -50,12 +49,10 @@ app.post('/addRun/:id', async (req, res) => {
 	let body = req.body;
 	console.log(body);
 	const run = model.Run.fromJSON(body);
-	console.log(run);
-	dbRun.insertRun(id, run)
+	dbRun.insertRun(id, body)
 		.then(run_id => {
 			console.log(`Adding Run: ${id}`);
 			res.status(200).end(`Run Uploaded`);
-			//send back to be posted?
 		})
 		.catch(err => {
 			console.log(err);
@@ -96,11 +93,9 @@ app.get('/getUsers/:id', function (request, response) {
 	let id = request.params.id;
 	db.getUser(id)
 		.then(jsn => {
-			console.log(jsn);
 			let user = model.User.fromJSON(jsn); // this will do all the validation for us!
 			let info = { name: user.name, age: user.age, email: user.email };
-			console.log(info);
-			response.status(200);
+			response.status(200).json(info);
 		})
 		.catch(err => {
 			console.log(err);
@@ -108,40 +103,22 @@ app.get('/getUsers/:id', function (request, response) {
 		});
 });
 
-/**
- * GET from ID
- * Route to Fetch User Details based on ID to display on page
- */
+//get all runs and put into array
+//display and poll
 app.get('/getRuns/:id', function (request, response) {
 	let id = request.params.id;
-	dbRun.getRuns(id)
+	dbRun.getFilm(id)
 		.then(jsn => {
-			//let run = model.Run.fromJSON(jsn); // this will do all the validation for us!
-			//let run = model.Run.fromJSON(jsn);
-			response.status(200).send("Hello");
+			console.log(jsn);
+			let info = { id: jsn.id, origin: jsn.origin, destination: jsn.destination };
+			console.log("hi").send(info);
+			response.status(200);
 		})
 		.catch(err => {
 			console.log(err);
 			response.status(500).end(`Could not get Run with id ${id}`);
 		});
 });
-
-// //get all runs and put into array
-// //display and poll
-// app.get('/getRuns/:id', function (request, response) {
-// 	let id = request.params.id;
-// 	dbRun.getFilm(id)
-// 		.then(jsn => {
-// 			console.log(jsn);
-// 			let info = { id: jsn.id, origin: jsn.origin, destination: jsn.destination };
-// 			console.log("hi").send(info);
-// 			response.status(200);
-// 		})
-// 		.catch(err => {
-// 			console.log(err);
-// 			response.status(500).end(`Could not get Run with id ${id}`);
-// 		});
-// });
 
 app.use(express.static('content'));
 

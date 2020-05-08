@@ -33,7 +33,6 @@ app.post('/addUser/:id', async (req, res) => {
 		.then(user_id => {
 			console.log(`Adding ${id}`);
 			res.status(200).end(`Sign Up successful: '${body.name}'`);
-
 		})
 		.catch(err => {
 			console.log(err);
@@ -100,7 +99,7 @@ app.get('/getUsers/:id', function (request, response) {
 			let user = model.User.fromJSON(jsn); // this will do all the validation for us!
 			let info = { name: user.name, age: user.age, email: user.email };
 			console.log(info);
-			response.status(200);
+			response.status(200).json(info);
 		})
 		.catch(err => {
 			console.log(err);

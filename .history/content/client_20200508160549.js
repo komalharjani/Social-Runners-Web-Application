@@ -132,18 +132,13 @@ async function displayRuns() {
 }
 displayRuns();
 
-let user;
 async function runsDis() {
 	id = 9;
-	fetch(`/getRuns/${id}`)
-	.then(response => response.json())
-	.then(data => console.log(data));
-	user = data;
-	// console.log(response);
-	// return await response.json();
+	const response = await fetch(`/getRuns/${id}`);
+	console.log(response);
+	return await response.json();
 }
-runsDis();
-//promise functions
+//runsDis();
 
 let runs = [{
 	"id": '9',

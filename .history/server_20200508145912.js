@@ -33,7 +33,6 @@ app.post('/addUser/:id', async (req, res) => {
 		.then(user_id => {
 			console.log(`Adding ${id}`);
 			res.status(200).end(`Sign Up successful: '${body.name}'`);
-
 		})
 		.catch(err => {
 			console.log(err);

@@ -73,35 +73,16 @@
 
     class Run {
         //ID is automatic
-        constructor(origin, destination, distance, pace, duration, date, startTime, description, meetingPointOne, meetingPointTwo, maxPeople, comments) {
-            this.origin = origin;
-            this.destination = destination;
-            this.distance = distance;
-            this.pace = pace;
-            this.duration = duration;
-            this.date = date;
-            this.startTime = startTime;
-            this.description = description;
-            this.meetingPointOne = meetingPointOne;
-            this.meetingPointTwo = meetingPointTwo;
-            this.maxPeople = maxPeople;
+        constructor(details, maxParticipants) {
             this.comments = comments;
+            this.details = details;
+            this.maxParticipants = maxParticipants;
         }
 
         toJSON() {
             let result = {};
-            result.origin = this.origin;
-            result.destination = this.destination;
-            result.distance = this.distance;
-            result.pace = this.pace;
-            result.duration = this.duration;
-            result.date = this.date;
-            result.startTime = this.startTime;
-            result.description = this.description;
-            result.meetingPointOne = this.meetingPointOne;
-            result.meetingPointTwo = this.meetingPointTwo;
-            result.maxPeople = this.maxPeople;
-            result.comments = this.comments
+            result.details = this.details;
+            result.maxParticipants = this.maxParticipants;
             return result;
         }
 
@@ -112,7 +93,19 @@
 
         //build User from json
         static fromJSON(json) {
-            return new Run(json.origin, json.destination, json.distance, json.pace, json.duration, json.date, json.startTime, json.description, json.meetingPointOne, json.meetingPointTwo, json.maxPeople, json.comments);
+            if (!json.hasOwnProperty('name')) {
+                throw new Error("Missing name");
+            }
+            if (!json.hasOwnProperty('password')) {
+                throw new Error("Missing password");
+            }
+            if (!json.hasOwnProperty('email')) {
+                throw new Error("Missing email");
+            }
+            if (!json.hasOwnProperty('age')) {
+                throw new Error("Missing age");
+            }
+            return new User(json.name, json.password, json.email, json.age);
         }
     }
 

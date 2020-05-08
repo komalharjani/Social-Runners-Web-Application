@@ -73,7 +73,7 @@
 
     class Run {
         //ID is automatic
-        constructor(origin, destination, distance, pace, duration, date, startTime, description, meetingPointOne, meetingPointTwo, maxPeople, comments) {
+        constructor(origin, destination, distance, pace, duration, date, startTime, description, meetingPointOne, meetingPointTwo, maxPeople) {
             this.origin = origin;
             this.destination = destination;
             this.distance = distance;
@@ -85,7 +85,6 @@
             this.meetingPointOne = meetingPointOne;
             this.meetingPointTwo = meetingPointTwo;
             this.maxPeople = maxPeople;
-            this.comments = comments;
         }
 
         toJSON() {
@@ -101,7 +100,6 @@
             result.meetingPointOne = this.meetingPointOne;
             result.meetingPointTwo = this.meetingPointTwo;
             result.maxPeople = this.maxPeople;
-            result.comments = this.comments
             return result;
         }
 
@@ -112,7 +110,7 @@
 
         //build User from json
         static fromJSON(json) {
-            return new Run(json.origin, json.destination, json.distance, json.pace, json.duration, json.date, json.startTime, json.description, json.meetingPointOne, json.meetingPointTwo, json.maxPeople, json.comments);
+            return new Run(json.origin, json.destination, json.distance, json.pace, json.duration, json.date, json.startTime, json.description, json.meetingPointOne, json.meetingPointTwo, json.maxPeople);
         }
     }
 

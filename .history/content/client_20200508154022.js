@@ -64,7 +64,7 @@ function signUp() {
 /**
  * FUNCTION TO LOG IN AND CALL DASHBOARD
  */
-let login = function () {
+let login = function() {
 	let btnLogIn = document.getElementById("loginInBtn");
 	btnLogIn.onclick = function () { //onclick function
 		let id = document.getElementById("emailLogin").value;
@@ -76,22 +76,17 @@ let login = function () {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(auth)
 		})
-			// .then(response => response.json())
-			// .then(data => console.log(data));
-		.then((res) => {
-			if (res.status == 200) {
-				console.log("hello");
-				console.log(res.status);
-				console.log(res.body);
-				console.log(res.name);
-				clientId = id;
-				//window.location.replace("./dashboard.html");
-				return clientId;
-			}
-			else {
-				alert("Failed to Login.");
-			}
-		})
+			.then(function (response) {
+				if (response.status == 200) {
+					console.log(response.origin);
+					clientId = id;
+					//window.location.replace("./dashboard.html");
+					return clientId;
+				}
+				else {
+					alert("Failed to Login.");
+				}
+			})
 	}
 }
 
@@ -110,7 +105,7 @@ function logout() {
 async function getData() {
 	let id = "5";
 	let response = await fetch(`/getRuns/${id}`);
-	getUser = await response.json();
+	getUser =  await response.json();
 	console.log(getUser);
 	// console.log(getUser);
 	// userEmail = getUser.email;
@@ -133,17 +128,20 @@ async function displayRuns() {
 displayRuns();
 
 let user;
+async function dashboard() {
+	let id = 'komaalharjani@gmail.com';
+	const response = await fetch(`/getUsers/${id}`);
+	const getUser = await response.json;
+	console.log(getUser);
+}
+
 async function runsDis() {
 	id = 9;
-	fetch(`/getRuns/${id}`)
-	.then(response => response.json())
-	.then(data => console.log(data));
-	user = data;
-	// console.log(response);
-	// return await response.json();
+	const response = await fetch(`/getRuns/${id}`);
+	console.log(response);
+	return await response.json();
 }
-runsDis();
-//promise functions
+//runsDis();
 
 let runs = [{
 	"id": '9',
@@ -198,10 +196,10 @@ function generateSquares() {
 
 			table.className = "runPostsStyle";
 			// map.className = "mapStyle";
-
+			
 			//Add Date Posted
 			//Title
-
+			
 			let title = document.createElement("h1")
 			title.innerHTML = "Social Runs + ADD DATE";
 			title.className = "postTitle";
@@ -250,7 +248,7 @@ function generateSquares() {
 
 			// var divContainerMap = document.getElementById("left");
 			// table.appendChild(map);
-
+			
 			var divContainer = document.getElementById("right");
 			divContainer.appendChild(table);
 		}

@@ -33,7 +33,6 @@ app.post('/addUser/:id', async (req, res) => {
 		.then(user_id => {
 			console.log(`Adding ${id}`);
 			res.status(200).end(`Sign Up successful: '${body.name}'`);
-
 		})
 		.catch(err => {
 			console.log(err);
@@ -96,11 +95,9 @@ app.get('/getUsers/:id', function (request, response) {
 	let id = request.params.id;
 	db.getUser(id)
 		.then(jsn => {
-			console.log(jsn);
 			let user = model.User.fromJSON(jsn); // this will do all the validation for us!
 			let info = { name: user.name, age: user.age, email: user.email };
-			console.log(info);
-			response.status(200);
+			response.status(200).json(info);
 		})
 		.catch(err => {
 			console.log(err);
@@ -117,12 +114,12 @@ app.get('/getRuns/:id', function (request, response) {
 	dbRun.getRuns(id)
 		.then(jsn => {
 			//let run = model.Run.fromJSON(jsn); // this will do all the validation for us!
-			//let run = model.Run.fromJSON(jsn);
-			response.status(200).send("Hello");
+			let json = toJSON(jsn);
+			response.status(200).json(run);
 		})
 		.catch(err => {
 			console.log(err);
-			response.status(500).end(`Could not get Run with id ${id}`);
+			response.status(500).end(`Could not get User with id ${id}`);
 		});
 });
 

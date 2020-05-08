@@ -73,46 +73,10 @@
 
     class Run {
         //ID is automatic
-        constructor(origin, destination, distance, pace, duration, date, startTime, description, meetingPointOne, meetingPointTwo, maxPeople, comments) {
-            this.origin = origin;
-            this.destination = destination;
-            this.distance = distance;
-            this.pace = pace;
-            this.duration = duration;
-            this.date = date;
-            this.startTime = startTime;
-            this.description = description;
-            this.meetingPointOne = meetingPointOne;
-            this.meetingPointTwo = meetingPointTwo;
-            this.maxPeople = maxPeople;
+        constructor(details, maxParticipants) {
             this.comments = comments;
-        }
-
-        toJSON() {
-            let result = {};
-            result.origin = this.origin;
-            result.destination = this.destination;
-            result.distance = this.distance;
-            result.pace = this.pace;
-            result.duration = this.duration;
-            result.date = this.date;
-            result.startTime = this.startTime;
-            result.description = this.description;
-            result.meetingPointOne = this.meetingPointOne;
-            result.meetingPointTwo = this.meetingPointTwo;
-            result.maxPeople = this.maxPeople;
-            result.comments = this.comments
-            return result;
-        }
-
-        // convert to string
-        toJSONString() {
-            return JSON.stringify(this.toJSON());
-        }
-
-        //build User from json
-        static fromJSON(json) {
-            return new Run(json.origin, json.destination, json.distance, json.pace, json.duration, json.date, json.startTime, json.description, json.meetingPointOne, json.meetingPointTwo, json.maxPeople, json.comments);
+            this.details = details;
+            this.maxParticipants = maxParticipants;
         }
     }
 
