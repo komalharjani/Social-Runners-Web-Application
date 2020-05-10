@@ -106,19 +106,16 @@ app.get('/getUsers/:id', function (request, response) {
 });
 
 let participants = [];
-let comments = []
-
 /**
  * Route to Get All Posts from DB
  */
 app.get('/getRuns/', function(req,res,next) {
-	let genre = 'run';
+	let genre = 'all';
 	dbRun.getRunsType(genre)
 	.then(runs => {
 		let full =({
 			runs: runs,
-			joiners: participants,
-			comments: comments
+			joiners: participants
 		  })
 		console.log(full);
 		res.status(200).json(full);
@@ -127,27 +124,6 @@ app.get('/getRuns/', function(req,res,next) {
 		console.log(err);
 		res.status(500).end(`Could not get all runs`);
 	});
-});
-
-app.post('/addParticipant/', async (req, res) => {
-	let body = req.body;
-	if (participants.some(item => item.email === body.email && item.id === body._id)) {
-		res.status(500).send(`You have already signed up for this run.`)
-	}
-	else {
-		participants.push({id: body._id, email: body.email, name: body.name})
-		console.log(participants);
-		res.status(200).send(`You have joined the run! Hurrah!`);
-	} 
-});
-
-
-app.post('/addComment/', async (req, res) => {
-	let body = req.body;
-	console.log(body);
-	comments.push({id: body._id, email: body.email, name: body.name, comment: body.comment});
-	console.log(comments);
-	res.status(200).json(comments);
 });
 
 /**
@@ -165,6 +141,27 @@ app.post('/addComment/', async (req, res) => {
 // 			res.status(500).end(`Not Uploaded`);
 // 		});
 // });
+
+app.post('/addParticipant/', async (req, res) => {
+	let body = req.body;
+	if (participants.some(item => item.email === body.email && item.id === body._id)) {
+		res.status(500).send(`You have already signed up for this run.`)
+	}
+	else {
+		participants.push({id: body._id, email: body.email, name: body.name})
+		console.log(participants);
+		res.status(200).send(`You have joined the run! Hurrah!`);
+	}
+});
+
+let comments = []
+
+app.post('/addComment/', async (req, res) => {
+	let body = req.body;
+	comments.push({id: body._id, email: body.email, name: body.name, comment: body.comment});
+	console.log(comments);
+	res.status(200).send(`Comment Posted`);
+});
 
 app.use(express.static('content'));
 

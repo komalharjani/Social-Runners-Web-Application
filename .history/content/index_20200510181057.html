@@ -130,7 +130,7 @@
                         <!--Add New Dynamically with Button-->
                         <div><label>Meeting Point 1</label><input type="text" id="meetingPointOne" /></div>
                         <div><label>Meeting Point 2</label><input type="text" id="meetingPointTwo" /></div>
-                        <input type="submit" id="planRun" value="Post Run!" class="runBtn"/>
+                        <input type="submit" id="planRun" value="Post Run!" class="runBtn" />
                     </div>
                 </form>
                     <script>
@@ -201,10 +201,6 @@
                             $('#distance_form').submit(function (e) {
                                 e.preventDefault();
                                 calculateDistance();
-                            });
-                            $('#planRun').submit(function (e) {
-                                e.preventDefault();
-                                newRun();
                             });
                         });
 

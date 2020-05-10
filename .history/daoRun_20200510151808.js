@@ -74,7 +74,7 @@
 		}
 
 		//get RunID
-		joinRunUpdate(body) {
+		joinRunUpdate() {
 			return this._db.insert({id: body._id, _rev : body._rev, participant: body.email}, body._id);
 		}
 		///db.insert({ _id: 'myid', _rev: '1-23202479633c2b380f79507a776743d5', happy: false }).then((body) => {

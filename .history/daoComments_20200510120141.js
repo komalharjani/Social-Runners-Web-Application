@@ -11,13 +11,13 @@
 	//create view
 	//get View
 
-	var run_views = {
+	var comments_views = {
 		all: {
-			map: function (doc) { if (doc.origin) { emit(doc.type, doc._rev, doc._id); } }
+			map: function (doc) { if (doc.origin) { emit(doc.type); } }
 		},
-		run: {
+		comments: {
 			map: function (doc) {
-				if(doc.type == 'run') {
+				if(doc.type == 'comments') {
 					emit(doc.id, doc);
 				}
 			}
@@ -27,7 +27,7 @@
 			reduce: function (key,values,rereduce) { return sum(values); }
 		}
 	}
-	class DAORun {
+	class DAOComments {
 		constructor(url, user, pword) {
 			console.log(`URL: http://${user}:******@${url}`);
 			nano = nano(`http://${user}:${pword}@${url}`);
@@ -46,7 +46,7 @@
 						//create db 
 						return nano.db.create(db_name) // create the database
 							.then(body => console.log(`database ${db_name} created!`))
-							.then( body => this.createViews('runs', run_views) )
+							.then( body => this.createViews('comments', comments_views) )
 					}
 					else {
 						console.log(`error getting database ${db_name}!`);
@@ -59,7 +59,7 @@
 			return this._db.insert( { "views": views }, '_design/'+design )
 		}
 
-		getRunsType(type) {
+		getCommentType(type) {
 			return this._db.view('runs', type).then ( body => body.rows );
 		}
 
@@ -74,8 +74,14 @@
 		}
 
 		//get RunID
-		joinRunUpdate(body) {
-			return this._db.insert({id: body._id, _rev : body._rev, participant: body.email}, body._id);
+		joinRunUpdate() {
+			this._db.list({include_docs: true}).then((body) => {
+				body.rows.forEach((doc) => {
+				  // output each document's body
+				  console.log(doc.doc);
+				});
+			  });
+			//return this._db.insert({id: body._id, _rev : body._rev, participant: body.email}, body._id);
 		}
 		///db.insert({ _id: 'myid', _rev: '1-23202479633c2b380f79507a776743d5', happy: false }).then((body) => {
 		//.then( body => mydb.insert({ name: 'Frodo Baggins', _rev: body._rev}, body._id) )

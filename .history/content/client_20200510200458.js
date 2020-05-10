@@ -300,11 +300,9 @@ function generateSquares(runs, joiners, commentsData) {
 			}
 
 			let commentPost = document.createElement("div");
-			let titleDisplay = document.createElement("p");
-			titleDisplay.innerText = runs[i].title;
-			titleDisplay.className = "title";
 			commentPost.className = "runPostsStyle";
 			modal.append(commentPost);
+			commentPost.appendChild(origin);
 			
 			if (commentsData.length > 0) {
 				for (let k=0; k < commentsData.length; k++) {
@@ -313,7 +311,7 @@ function generateSquares(runs, joiners, commentsData) {
 					if(commentsData[k].id == runID) {
 						let commentDisplay = document.createElement("p");
 						commentDisplay.innerHTML = "Comment:" + commentsData[k].comment + " - Posted by User: " + commentsData[k].name;
-						commentPost.appendChild(commentDisplay);
+						table.appendChild(commentDisplay);
 					}
 				}
 			}

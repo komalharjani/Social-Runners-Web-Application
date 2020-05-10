@@ -302,7 +302,6 @@ function generateSquares(runs, joiners, commentsData) {
 			let commentPost = document.createElement("div");
 			let titleDisplay = document.createElement("p");
 			titleDisplay.innerText = runs[i].title;
-			titleDisplay.className = "title";
 			commentPost.className = "runPostsStyle";
 			modal.append(commentPost);
 			

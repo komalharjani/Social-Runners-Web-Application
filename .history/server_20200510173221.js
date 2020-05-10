@@ -106,8 +106,6 @@ app.get('/getUsers/:id', function (request, response) {
 });
 
 let participants = [];
-let comments = []
-
 /**
  * Route to Get All Posts from DB
  */
@@ -117,8 +115,7 @@ app.get('/getRuns/', function(req,res,next) {
 	.then(runs => {
 		let full =({
 			runs: runs,
-			joiners: participants,
-			comments: comments
+			joiners: participants
 		  })
 		console.log(full);
 		res.status(200).json(full);
@@ -141,6 +138,7 @@ app.post('/addParticipant/', async (req, res) => {
 	} 
 });
 
+let comments = []
 
 app.post('/addComment/', async (req, res) => {
 	let body = req.body;

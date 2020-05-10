@@ -152,7 +152,6 @@ async function getRunPosts() {
  */
 function generateSquares(runs, joiners, commentsData) {
 
-
 	let arrayLength = runs.length;
 	if (arrayLength > 0) {
 		for (let i = 0; i < arrayLength; i++) {
@@ -300,19 +299,15 @@ function generateSquares(runs, joiners, commentsData) {
 			}
 
 			let commentPost = document.createElement("div");
-			let titleDisplay = document.createElement("p");
-			titleDisplay.innerText = runs[i].title;
-			titleDisplay.className = "title";
 			commentPost.className = "runPostsStyle";
 			modal.append(commentPost);
+			commentPost.appendChild(origin);
 			
 			if (commentsData.length > 0) {
-				for (let k=0; k < commentsData.length; k++) {
-					console.log(commentsData[k].id);
-					console.log(runID);
-					if(commentsData[k].id == runID) {
+				for (let k=0; k < comments.length; k++) {
+					if(comments[k].id == runID) {
 						let commentDisplay = document.createElement("p");
-						commentDisplay.innerHTML = "Comment:" + commentsData[k].comment + " - Posted by User: " + commentsData[k].name;
+						commentDisplay.innerHTML = "Comment:" + comments[k].comment + " - Posted by User: " + comments[k].name;
 						commentPost.appendChild(commentDisplay);
 					}
 				}

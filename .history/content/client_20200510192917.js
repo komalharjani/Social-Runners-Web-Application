@@ -136,23 +136,16 @@ async function getRunPosts() {
 	let joiners = getData.joiners;
 	let comments = getData.comments;
 	console.log(comments)
+	console.log(joiners);
 	let final = [];
 	for (let i = 0; i < getRuns.length; i++) {
 		final.push(getRuns[i].value);
 	}
 	console.log(final);
-	generateSquares(final, joiners, comments);
+	generateSquares(final, joiners);
 }
 
-/**
- * Function to Generate Run Posts
- * @param {*} runs 
- * @param {*} joiners 
- * @param {*} comments 
- */
-function generateSquares(runs, joiners, commentsData) {
-
-
+function generateSquares(runs, joiners) {
 	let arrayLength = runs.length;
 	if (arrayLength > 0) {
 		for (let i = 0; i < arrayLength; i++) {
@@ -205,6 +198,8 @@ function generateSquares(runs, joiners, commentsData) {
 						}
 					}
 				}
+
+				
 
 			let joinRun = document.createElement("button");
 			joinRun.innerText = "Join Run";
@@ -294,28 +289,6 @@ function generateSquares(runs, joiners, commentsData) {
 			viewComments.onclick = function () {
 				modal.style.display="block";
 				modal.style.width = "width: auto";
-				modal.style.opacity = "0.98"
-				modal.style.height = "500px";
-				
-			}
-
-			let commentPost = document.createElement("div");
-			let titleDisplay = document.createElement("p");
-			titleDisplay.innerText = runs[i].title;
-			titleDisplay.className = "title";
-			commentPost.className = "runPostsStyle";
-			modal.append(commentPost);
-			
-			if (commentsData.length > 0) {
-				for (let k=0; k < commentsData.length; k++) {
-					console.log(commentsData[k].id);
-					console.log(runID);
-					if(commentsData[k].id == runID) {
-						let commentDisplay = document.createElement("p");
-						commentDisplay.innerHTML = "Comment:" + commentsData[k].comment + " - Posted by User: " + commentsData[k].name;
-						commentPost.appendChild(commentDisplay);
-					}
-				}
 			}
 
 			//show comments here and append to modal.

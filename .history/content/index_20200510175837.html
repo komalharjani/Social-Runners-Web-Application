@@ -97,12 +97,11 @@
                         </form>
                     </div>
                     <div class="containerForm" id="second" style="display:none;">
+                        <b>
+                            <p>2. If you're okay with the pace and duration, add more details and post your run!</p>
+                        </b>
                         <form id="results_form">
-                        <div id="results">
-                            <b>
-                                <p>2. If you're okay with the pace and duration, add more details and post your run!</p>
-                            </b>
-                            <div><label>Title</label><input type="text" id="titleRun" required /></div>
+                            <div><label>Title</label><input required type="text" id="titleRun" /></div>
                             <div>
                                 <label>Origin</label>
                                 <p class="labelText" id="from"></p>
@@ -123,14 +122,14 @@
                                 <label>Time:</label>
                                 <p class="labelText" id="duration_text"></p>
                             </div>
-                        </div>
                         <div><label>Date</label><input type="date" id="date" /></div>
                         <div><label>Start Time</label><input type="time" id="time" /></div>
                         <div><label>Description</label><input type="text" id="description" /></div>
                         <!--Add New Dynamically with Button-->
                         <div><label>Meeting Point 1</label><input type="text" id="meetingPointOne" /></div>
                         <div><label>Meeting Point 2</label><input type="text" id="meetingPointTwo" /></div>
-                        <input type="submit" id="planRun" value="Post Run!" class="runBtn"/>
+                        <input type="submit" value="Calculate Run" class="runBtn" />
+                        <input type="submit" id="planRun" value="Post Run!" class="runBtn" />
                     </div>
                 </form>
                     <script>
@@ -201,10 +200,6 @@
                             $('#distance_form').submit(function (e) {
                                 e.preventDefault();
                                 calculateDistance();
-                            });
-                            $('#planRun').submit(function (e) {
-                                e.preventDefault();
-                                newRun();
                             });
                         });
 

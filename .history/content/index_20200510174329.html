@@ -58,6 +58,7 @@
         <div class="centercolumn" id="startRun">
             <div class="card">
                 <h2>Current Runs</h2>
+
                 <button onclick="document.getElementById('newRun').style.display='block'" style="width:auto;">Plan New
                     Run</button>
 
@@ -124,15 +125,15 @@
                                 <p class="labelText" id="duration_text"></p>
                             </div>
                         </div>
+                        </form>
                         <div><label>Date</label><input type="date" id="date" /></div>
                         <div><label>Start Time</label><input type="time" id="time" /></div>
                         <div><label>Description</label><input type="text" id="description" /></div>
                         <!--Add New Dynamically with Button-->
                         <div><label>Meeting Point 1</label><input type="text" id="meetingPointOne" /></div>
                         <div><label>Meeting Point 2</label><input type="text" id="meetingPointTwo" /></div>
-                        <input type="submit" id="planRun" value="Post Run!" class="runBtn"/>
+                        <input type="submit" onclick=newRun() id="planRun" value="Post Run!" class="runBtn" />
                     </div>
-                </form>
                     <script>
 
                         $(function () {
@@ -201,10 +202,6 @@
                             $('#distance_form').submit(function (e) {
                                 e.preventDefault();
                                 calculateDistance();
-                            });
-                            $('#planRun').submit(function (e) {
-                                e.preventDefault();
-                                newRun();
                             });
                         });
 

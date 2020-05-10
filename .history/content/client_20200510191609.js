@@ -116,7 +116,6 @@ function logout() {
 }
 
 async function display(id) {
-
 	let response = await fetch(`/getUsers/${id}`);
 	let getPost = await response.json();
 	console.log(getPost);
@@ -136,23 +135,16 @@ async function getRunPosts() {
 	let joiners = getData.joiners;
 	let comments = getData.comments;
 	console.log(comments)
+	console.log(joiners);
 	let final = [];
 	for (let i = 0; i < getRuns.length; i++) {
 		final.push(getRuns[i].value);
 	}
 	console.log(final);
-	generateSquares(final, joiners, comments);
+	generateSquares(final, joiners);
 }
 
-/**
- * Function to Generate Run Posts
- * @param {*} runs 
- * @param {*} joiners 
- * @param {*} comments 
- */
-function generateSquares(runs, joiners, commentsData) {
-
-
+function generateSquares(runs, joiners) {
 	let arrayLength = runs.length;
 	if (arrayLength > 0) {
 		for (let i = 0; i < arrayLength; i++) {
@@ -206,6 +198,8 @@ function generateSquares(runs, joiners, commentsData) {
 					}
 				}
 
+				
+
 			let joinRun = document.createElement("button");
 			joinRun.innerText = "Join Run";
 			let runOwnerEmail = runs[i].userEmail;
@@ -233,13 +227,17 @@ function generateSquares(runs, joiners, commentsData) {
 				}
 			}
 			table.append(joinRun);
+
+			let form = document.createElement("form");
+
+
 			let comments = document.createElement('input')
 			comments.setAttribute('type', 'text');
 			comments.style.backgroundColor = "white";
 			comments.style.height = "100px";
 			comments.placeholder = "Write a Comment...";
 			comments.className = ("infoclass");
-			let com = comments.value = $('#comments'.toString()).text();
+			comments.value = $('#comments'.toString()).text();
 			table.append(comments);
 
 			let submit = document.createElement('button');
@@ -248,7 +246,8 @@ function generateSquares(runs, joiners, commentsData) {
 			submit.onclick = async function() {
 				let clientEmail = document.getElementById("emailDisplay").innerText;
 				let clientName = document.getElementById("hiName").innerText;
-				let com = comments.value; //CHANGE TO PROPER COMMENT
+				let com = "Comment"; //CHANGE TO PROPER COMMENT
+				console.log(com);
 				let addComment = new Object();
 				addComment.email = clientEmail;
 				addComment._id = runs[i]._id;
@@ -264,16 +263,15 @@ function generateSquares(runs, joiners, commentsData) {
 					let getComments = await response.json();
 					console.log(getComments);
 					display(clientEmail);
-					//getRunPosts();
-					$('#dashboardPage').show();
 				}
 				else {
 					alert("You cannot post an empty comment.");
 				}
 			}
 
-			table.append(comments);
-			table.append(submit);
+			form.appendChild(submit);
+			table.append(form);
+
 
 			//MODAL BELOW
 			let modal = document.createElement("div");
@@ -294,28 +292,6 @@ function generateSquares(runs, joiners, commentsData) {
 			viewComments.onclick = function () {
 				modal.style.display="block";
 				modal.style.width = "width: auto";
-				modal.style.opacity = "0.98"
-				modal.style.height = "500px";
-				
-			}
-
-			let commentPost = document.createElement("div");
-			let titleDisplay = document.createElement("p");
-			titleDisplay.innerText = runs[i].title;
-			titleDisplay.className = "title";
-			commentPost.className = "runPostsStyle";
-			modal.append(commentPost);
-			
-			if (commentsData.length > 0) {
-				for (let k=0; k < commentsData.length; k++) {
-					console.log(commentsData[k].id);
-					console.log(runID);
-					if(commentsData[k].id == runID) {
-						let commentDisplay = document.createElement("p");
-						commentDisplay.innerHTML = "Comment:" + commentsData[k].comment + " - Posted by User: " + commentsData[k].name;
-						commentPost.appendChild(commentDisplay);
-					}
-				}
 			}
 
 			//show comments here and append to modal.

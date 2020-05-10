@@ -74,8 +74,14 @@
 		}
 
 		//get RunID
-		joinRunUpdate(body) {
-			return this._db.insert({id: body._id, _rev : body._rev, participant: body.email}, body._id);
+		joinRunUpdate() {
+			this._db.list({include_docs: true}).then((body) => {
+				body.rows.forEach((doc) => {
+				  // output each document's body
+				  console.log(doc.doc);
+				});
+			  });
+			//return this._db.insert({id: body._id, _rev : body._rev, participant: body.email}, body._id);
 		}
 		///db.insert({ _id: 'myid', _rev: '1-23202479633c2b380f79507a776743d5', happy: false }).then((body) => {
 		//.then( body => mydb.insert({ name: 'Frodo Baggins', _rev: body._rev}, body._id) )

@@ -7,25 +7,27 @@ var userEmail;
 $('dashboardPage').hide();
 
 let loggedIn = false;
+
 function load() {
-	//get LoggedIn array from server
-	if (loggedIn.state = false);
-	$(document).ready(function () {
-		$('#dashboardPage').hide();
-	});
+	if (loggedIn = false) 
+		$(document).ready(function () {
+			$('#dashboardPage').hide();
+		});
+	// else {
+	// 	$(document).ready(function () {
+	// 		$('#dashboardPage').show();
+	// 		$('#LoginPage').hide();
+	// 	});
+	// }
 }
 
-$('#planRun').submit(function (e) {
-	newRun();
-});
-
-//$('#planRun').submit = newRun();
 /**
  *  FUNCTION TO SUBMIT NEW RUN TO DB
  */
 function newRun() {
 	let idRandom = (Math.random() * (100 - 1) + 1);
 	let id = Math.floor(idRandom);
+	//let email = clientId;
 	let runData = new Object();
 	runData.title = document.getElementById("titleRun").innerHTML;
 	runData.origin = document.getElementById("from").innerHTML;
@@ -49,9 +51,8 @@ function newRun() {
 	})
 		.then(res => res.text())
 		.then(txt => alert(txt))
-		document.getElementById("closeModal").onclick();
-		getRunPosts();
-		
+	getRunPosts();
+	document.getElementById("closeModal").onclick();
 	//Refresh Form SomeHoW
 }
 
@@ -82,7 +83,6 @@ function signUp() {
  * FUNCTION TO LOG IN AND CALL DASHBOARD
  */
 let login = function () {//onclick function
-
 	let id = document.getElementById("emailLogin").value;
 	let auth = new Object();
 	auth.email = document.getElementById("emailLogin").value;
@@ -116,7 +116,6 @@ function logout() {
 }
 
 async function display(id) {
-
 	let response = await fetch(`/getUsers/${id}`);
 	let getPost = await response.json();
 	console.log(getPost);
@@ -126,33 +125,21 @@ async function display(id) {
 	clientId = getPost.name;
 }
 
-/**
- * Get Run Posts, Comments and Joins
- */
 async function getRunPosts() {
 	let response = await fetch(`/getRuns/`);
 	let getData = await response.json();
 	let getRuns = getData.runs;
 	let joiners = getData.joiners;
-	let comments = getData.comments;
-	console.log(comments)
+	console.log(joiners);
 	let final = [];
 	for (let i = 0; i < getRuns.length; i++) {
 		final.push(getRuns[i].value);
 	}
 	console.log(final);
-	generateSquares(final, joiners, comments);
+	generateSquares(final, joiners);
 }
 
-/**
- * Function to Generate Run Posts
- * @param {*} runs 
- * @param {*} joiners 
- * @param {*} comments 
- */
-function generateSquares(runs, joiners, commentsData) {
-
-
+function generateSquares(runs, joiners) {
 	let arrayLength = runs.length;
 	if (arrayLength > 0) {
 		for (let i = 0; i < arrayLength; i++) {
@@ -163,7 +150,7 @@ function generateSquares(runs, joiners, commentsData) {
 			//Sort by date run
 
 			let title = document.createElement("h1")
-			title.innerHTML = runs[i].title;
+			title.innerHTML = "Social Runs + ADD DATE";
 			title.className = "postTitle";
 			table.append(title);
 
@@ -202,11 +189,12 @@ function generateSquares(runs, joiners, commentsData) {
 					if (joiners[j].id == runID) { //if they haven't already joined
 						count++;
 						runJoiners.innerHTML = "Number of users Joined: " + count;
-						}
 					}
 				}
+			}
 
 			let joinRun = document.createElement("button");
+			joinRun.className = "readMore";
 			joinRun.innerText = "Join Run";
 			let runOwnerEmail = runs[i].userEmail;
 			joinRun.onclick = function () {
@@ -227,98 +215,52 @@ function generateSquares(runs, joiners, commentsData) {
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify(joinRun)
 					})
-					.then(res => res.text())
-					.then(txt => alert(txt))
+						.then(res => res.text())
+						.then(txt => alert(txt))
+					getCount();
 					//reload div
 				}
 			}
 			table.append(joinRun);
-			let comments = document.createElement('input')
-			comments.setAttribute('type', 'text');
+
+			let comments = document.createElement("input");
 			comments.style.backgroundColor = "white";
 			comments.style.height = "100px";
 			comments.placeholder = "Write a Comment...";
-			comments.className = ("infoclass");
-			let com = comments.value = $('#comments'.toString()).text();
 			table.append(comments);
 
 			let submit = document.createElement('button');
 			submit.className = "readMore";
 			submit.innerText = "Submit";
-			submit.onclick = async function() {
+			table.append(submit);
+			submit.onclick = async function () {
 				let clientEmail = document.getElementById("emailDisplay").innerText;
 				let clientName = document.getElementById("hiName").innerText;
-				let com = comments.value; //CHANGE TO PROPER COMMENT
+				let comment = comments.innerText;
 				let addComment = new Object();
 				addComment.email = clientEmail;
 				addComment._id = runs[i]._id;
 				addComment._rev = runs[i]._rev;
 				addComment.name = clientName;
-				addComment.comment = com;
-				if(com != "" || com == "undefined") {
+				addComment.text = comment;
 				let response = await fetch(`/addComment/`, {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify(addComment)
-					})
-					let getComments = await response.json();
-					console.log(getComments);
-					display(clientEmail);
-					//getRunPosts();
-					$('#dashboardPage').show();
-				}
-				else {
-					alert("You cannot post an empty comment.");
-				}
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(addComment)
+				})
+				let getComments = await response.json();
+				console.log(getComments);
+				//need to get comment to post
+				//reload div
 			}
 
-			table.append(comments);
-			table.append(submit);
-
-			//MODAL BELOW
-			let modal = document.createElement("div");
-			modal.className = "modal";
-			table.append(modal);
-
-			let close = document.createElement("button");
-			close.innerText = "Close"
-			close.onclick = function () {
-				modal.style.display="none";
-			}
-			modal.append(close);
-			
 			let viewComments = document.createElement('button');
 			viewComments.className = "readMore";
 			viewComments.innerText = "View Comments";
 			table.append(viewComments);
 			viewComments.onclick = function () {
-				modal.style.display="block";
-				modal.style.width = "width: auto";
-				modal.style.opacity = "0.98"
-				modal.style.height = "500px";
-				
-			}
 
-			let commentPost = document.createElement("div");
-			let titleDisplay = document.createElement("p");
-			titleDisplay.innerText = runs[i].title;
-			titleDisplay.className = "title";
-			commentPost.className = "runPostsStyle";
-			modal.append(commentPost);
-			
-			if (commentsData.length > 0) {
-				for (let k=0; k < commentsData.length; k++) {
-					console.log(commentsData[k].id);
-					console.log(runID);
-					if(commentsData[k].id == runID) {
-						let commentDisplay = document.createElement("p");
-						commentDisplay.innerHTML = "Comment:" + commentsData[k].comment + " - Posted by User: " + commentsData[k].name;
-						commentPost.appendChild(commentDisplay);
-					}
-				}
 			}
-
-			//show comments here and append to modal.
 
 			//INSERT MAP OR WEATHER API
 
