@@ -43,7 +43,7 @@
 
         <!--Profile and Calendar-->
         <div class="leftcolumn">
-            <div class="card">
+            <div class="card" style="height:500px">
                 <div class="profile">
                     <img src="img.png" id="profile" style="width:100%">
                     <h3 id="hiName"></h3>
@@ -52,7 +52,6 @@
                     <p id="totalMiles"></p>
                     <p id="noRunsJoin"></p>
                     <p id="level"></p>
-                    <p id="level2"></p>
                     <p id="fact"></p>
                 </div>
             </div>
@@ -64,7 +63,7 @@
                 <button onclick="showModal()" id="modalClick" style="width:auto;" class='runBtn'>Plan New
                     Run</button>
                 <h2>Current Runs</h2>
-                <button onclick="getRuns()" id="reLoad">Refresh with Updates</button>
+                <button onclick="getRuns()" id="reLoad">Plan New</button>button
                 <script>
                     function showModal() {
                         document.getElementById('newRun').style.display = 'block';

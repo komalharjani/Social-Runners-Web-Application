@@ -228,15 +228,15 @@ function displayAnalytics(runs, joiners) {
 						//increment numberOfRuns for this client
 						countRuns++;
 						//Display on profile
-						document.getElementById("noRunsJoin").innerHTML = "Number of Runs Completed: " + countRuns;
+						document.getElementById("noRunsJoin").innerHTML = "Number of Runs Completed:" + countRuns;
 
 						//Find out total miles run
 						totalMiles = JSON.parse(runs[x].distance) + totalMiles;
-						document.getElementById("totalMiles").innerHTML = "Number of Miles Run: " + Math.round(totalMiles) + " miles";
+						document.getElementById("totalMiles").innerHTML = "Number of Miles Run: " + Math.round(totalMiles);
 
 						//Display Avg Pace
 						avgPace = JSON.parse(runs[x].pace);
-						document.getElementById("level").innerHTML = "Avg Pace: " + avgPace;
+						document.getElementById("level").innerHTML = "Avg Pace:" + avgPace;
 
 						if (avgPace > 0 && avgPace < 5) {
 							document.getElementById("level2").innerHTML = "You are currently a Beginner";
@@ -246,8 +246,8 @@ function displayAnalytics(runs, joiners) {
 							document.getElementById("level2").innerHTML = "You are currently an Intermediate";
 
 						}
-						else if (avgPace > 8) {
-							document.getElementById("level2").innerHTML = "You are currently an Advanced!";
+						else if (runs[x].pace > 8) {
+							advanced++;
 						}
 
 						//Display Fun Fact

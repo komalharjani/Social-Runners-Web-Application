@@ -228,27 +228,27 @@ function displayAnalytics(runs, joiners) {
 						//increment numberOfRuns for this client
 						countRuns++;
 						//Display on profile
-						document.getElementById("noRunsJoin").innerHTML = "Number of Runs Completed: " + countRuns;
+						document.getElementById("noRunsJoin").innerHTML = "Number of Runs Completed:" + countRuns;
 
 						//Find out total miles run
 						totalMiles = JSON.parse(runs[x].distance) + totalMiles;
-						document.getElementById("totalMiles").innerHTML = "Number of Miles Run: " + Math.round(totalMiles) + " miles";
+						document.getElementById("totalMiles").innerHTML = "Number of Miles Run: " + totalMiles;
+
+						//Display Level
+						if (runs[x].pace > 0 && runs[x].pace < 5) {
+							beginner++;
+						}
+						else if (runs[x].pace >= 5 && runs[x].pace < 8) {
+							Intermediate++
+						}
+						else if (runs[x].pace > 8) {
+							advanced++;
+						}
+						console.log(beginner, Intermediate, advanced);
 
 						//Display Avg Pace
-						avgPace = JSON.parse(runs[x].pace);
-						document.getElementById("level").innerHTML = "Avg Pace: " + avgPace;
-
-						if (avgPace > 0 && avgPace < 5) {
-							document.getElementById("level2").innerHTML = "You are currently a Beginner";
-
-						}
-						else if (avgPace >= 5 && avgPace < 8) {
-							document.getElementById("level2").innerHTML = "You are currently an Intermediate";
-
-						}
-						else if (avgPace > 8) {
-							document.getElementById("level2").innerHTML = "You are currently an Advanced!";
-						}
+						avgPace = JSON.parse(runs[x].pace) / countRuns;
+						document.getElementById("level").innerHTML = "Avg Pace:" + avgPace;
 
 						//Display Fun Fact
 						const scotland = 7330;

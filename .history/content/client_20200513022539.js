@@ -1,5 +1,8 @@
+//Reset second form
+//set interval of certain things only...
+//increase height of profile
 //Display level
-//analytics - round avg pace and proper figure - convert back using algorithm
+//READ ME
 
 /**
  * On Load
@@ -47,7 +50,6 @@ function newRun() {
 					getRuns();
 					document.getElementById("distance_form").reset();
 					showSecond();
-					$('#results').empty();
 					//reset form here -- prevent submission twice
 				}
 				else {
@@ -141,10 +143,11 @@ async function display(id) {
  * Function to get get runs, joiners, and comments
  * Called at an interval to ensure page is updated
  */
+
+ let runs = [];
+ let joiners = [];
+ let comments = [];
 async function getRuns() {
-	let runs = [];
-	let joiners = [];
-	let comments = [];
 	//fetch runs
 	let response = await fetch(`/getRuns/`);
 	let getRuns = await response.json();
@@ -196,11 +199,14 @@ async function getRuns() {
 				runs[x].level = "Advanced";
 			}
 		}
+			console.log(runs);
 	//functions to display runs on page and profile analytics
 	displayAnalytics(runs, joiners);
 	displayRuns(runs, joiners, comments);
 }
-//let interval = setInterval(getRuns, 5000);
+//Set Interval to reload div
+//set interval if information is not same
+setInterval(getRuns, 5000);
 
 /**
  * Function to display user analytics
@@ -212,9 +218,6 @@ function displayAnalytics(runs, joiners) {
 	let totalMiles = 0;
 	let avgPace = 0;
 	let thisClient = document.getElementById("emailDisplay").innerHTML;
-	let beginner = 0;
-	let Intermediate = 0;
-	let advanced = 0;
 	
 	//for all runs and joiners
 	for (let x = 0; x < runs.length; x++) {
@@ -228,27 +231,17 @@ function displayAnalytics(runs, joiners) {
 						//increment numberOfRuns for this client
 						countRuns++;
 						//Display on profile
-						document.getElementById("noRunsJoin").innerHTML = "Number of Runs Completed: " + countRuns;
+						document.getElementById("noRunsJoin").innerHTML = "Number of Runs Completed:" + countRuns;
 
 						//Find out total miles run
 						totalMiles = JSON.parse(runs[x].distance) + totalMiles;
-						document.getElementById("totalMiles").innerHTML = "Number of Miles Run: " + Math.round(totalMiles) + " miles";
+						document.getElementById("totalMiles").innerHTML = "Number of Miles Run: " + totalMiles;
+
+						//Display Level
 
 						//Display Avg Pace
-						avgPace = JSON.parse(runs[x].pace);
-						document.getElementById("level").innerHTML = "Avg Pace: " + avgPace;
-
-						if (avgPace > 0 && avgPace < 5) {
-							document.getElementById("level2").innerHTML = "You are currently a Beginner";
-
-						}
-						else if (avgPace >= 5 && avgPace < 8) {
-							document.getElementById("level2").innerHTML = "You are currently an Intermediate";
-
-						}
-						else if (avgPace > 8) {
-							document.getElementById("level2").innerHTML = "You are currently an Advanced!";
-						}
+						avgPace = JSON.parse(runs[x].pace) / countRuns;
+						document.getElementById("level").innerHTML = "Avg Pace:" + avgPace;
 
 						//Display Fun Fact
 						const scotland = 7330;
@@ -391,7 +384,6 @@ function displayAnalytics(runs, joiners) {
 						})
 							.then(res => res.text())
 							.then(txt => alert(txt))
-							getRuns();
 					}
 				}
 				runPost.append(joinRun);
@@ -457,9 +449,6 @@ function displayAnalytics(runs, joiners) {
 				comments.style.height = "80px";
 				comments.placeholder = "Write a Comment...";
 				comments.className = ("infoclass");
-				comments.click(function () {
-					clearInterval(interval);
-				});
 				let com = comments.value = $('#comments'.toString()).text();
 				runPost.append(comments);
 
@@ -488,7 +477,6 @@ function displayAnalytics(runs, joiners) {
 						})
 							.then(res => res.text())
 							.then(txt => alert(txt))
-							getRuns();
 					}
 					else {
 						alert("You cannot post an empty comment.");
